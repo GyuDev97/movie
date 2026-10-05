@@ -4,7 +4,7 @@
 
 JSX는 기본 After Effects 기능만 사용하며, 특정 한글 폰트를 강제하지 않습니다. 설치된 폰트 또는 AE의 폰트 대체 기능으로 실행 실패를 피합니다.
 
-현재 스크립트에는 제공한 `별 보러 가는 밤.wav`, `별 보러 가는 밤_sync.smi`, `DSC08816.jpg`의 Desktop 경로가 기본 소스로 등록되어 있습니다. 해당 파일이 존재하면 실행 시 앨범아트와 음악을 자동으로 가져오고, SMI 타임코드에 맞춰 5개의 가사 레이어를 채웁니다. 기본 길이는 180초이지만 이 WAV가 더 길면 음악이 잘리지 않도록 컴포지션도 자동 확장합니다. 파일이 없으면 빈 재사용 템플릿으로 정상 생성됩니다.
+현재 스크립트에는 제공한 `별 보러 가는 밤.wav`, `별 보러 가는 밤_sync.smi`, `DSC08809.jpg`의 Desktop 경로가 기본 소스로 등록되어 있습니다. 해당 파일이 존재하면 실행 시 앨범아트와 음악을 자동으로 가져오고, SMI 타임코드에 맞춰 5개의 가사 레이어를 채웁니다. 기본 길이는 180초이지만 이 WAV가 더 길면 음악이 잘리지 않도록 컴포지션도 자동 확장합니다. 파일이 없으면 빈 재사용 템플릿으로 정상 생성됩니다.
 
 ## 1. After Effects에서 JSX 실행
 
@@ -70,4 +70,8 @@ Project 패널에서 `GYULAB_LYRIC_VIDEO__1080x1920`을 선택하고 **Compositi
 
 ## Control 값
 
-`00_CONTROL`을 선택하고 Effect Controls 패널에서 중앙 미디어 크기/세로 위치, 가사 위치와 줄 간격, 배경 어둡기/블러, 비활성 가사 Opacity를 조절할 수 있습니다. 하단 `10_BRANDING`은 `GYULAB MUSIC` 대신 `MADE WITH SUNO` 등으로 자유롭게 수정할 수 있습니다.
+`00_CONTROL`을 선택하고 Effect Controls 패널에서 중앙 미디어 크기/세로 위치, 가사 위치와 줄 간격(기본 82px), 배경 어둡기/블러, 비활성 가사 Opacity를 조절할 수 있습니다. 하단 `10_BRANDING`은 `GYULAB MUSIC` 대신 `MADE WITH SUNO` 등으로 자유롭게 수정할 수 있습니다.
+
+## PC / YouTube용 가로 템플릿
+
+[GyuLab_Lyric_Video_PC_Template.jsx](GyuLab_Lyric_Video_PC_Template.jsx)는 모바일 JSX와 별개의 1920×1080 / 30fps 템플릿입니다. 같은 WAV·SMI·앨범아트를 자동으로 사용하며, 캡처처럼 왼쪽에 840×840 둥근 앨범아트, 오른쪽에 제목·아티스트·5줄 롤링 가사를 배치합니다. After Effects에서 이 JSX를 별도로 실행하세요.

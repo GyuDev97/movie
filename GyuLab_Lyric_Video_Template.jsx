@@ -7,7 +7,7 @@
     var MEDIA_W = 540, MEDIA_H = 600;
     var project, master, mediaComp, control;
     var SUPPLIED_AUDIO = "C:/Users/gyu/Desktop/별 보러 가는 밤.wav";
-    var SUPPLIED_ARTWORK = "C:/Users/gyu/Desktop/DSC08816.jpg";
+    var SUPPLIED_ARTWORK = "C:/Users/gyu/Desktop/DSC08809.jpg";
     var SUPPLIED_SUBTITLES = "C:/Users/gyu/Desktop/별 보러 가는 밤_sync.smi";
 
     function addSlider(layer, name, value) {
@@ -197,7 +197,7 @@
         addSlider(control, "Main Media Scale", 100);
         addSlider(control, "Main Media Y Position", 770);
         addSlider(control, "Lyrics Y Position", 1260);
-        addSlider(control, "Lyrics Line Spacing", 62);
+        addSlider(control, "Lyrics Line Spacing", 82);
         addSlider(control, "Background Darkness", 72);
         addSlider(control, "Background Blur", 55);
         addSlider(control, "Inactive Lyric Opacity", 48);
@@ -207,7 +207,7 @@
         makeBackground();
         addMainMedia();
         var lyrics = addLyrics();
-        addText(master, "10_BRANDING", "GYULAB MUSIC", 1640, 25, [0.92, 0.92, 0.92], false);
+        addText(master, "10_BRANDING", "GYULAB MUSIC", 1754, 25, [0.92, 0.92, 0.92], false);
         if (audio !== null) {
             var audioLayer = master.layers.add(audio);
             audioLayer.name = "AUDIO__별 보러 가는 밤";
