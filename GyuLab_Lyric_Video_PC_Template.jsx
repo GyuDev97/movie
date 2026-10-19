@@ -2,18 +2,30 @@
 (function buildDesktopLyricTemplate() {
     var W = 1920, H = 1080, FPS = 30, DEFAULT_DURATION = 180;
     var MEDIA_W = 840, MEDIA_H = 840, MEDIA_X = 510, MEDIA_Y = 540;
-    var AUDIO_PATH = "C:/Users/gyu/Desktop/별 보러 가는 밤.wav";
-    var ARTWORK_PATH = "C:/Users/gyu/Desktop/DSC08809.jpg";
-    var SMI_PATH = "C:/Users/gyu/Desktop/별 보러 가는 밤_sync.smi";
+    var DESKTOP_PATH = Folder.desktop.fsName.replace(/\\/g, "/");
+    var AUDIO_PATH = DESKTOP_PATH + "/공부는 안 했지만.wav";
+    var ARTWORK_PATH = DESKTOP_PATH + "/middle-school-career-guidance-album-art.png";
+    var SMI_PATH = DESKTOP_PATH + "/공부는 안 했지만_sync.smi";
     var project, comp, mediaComp;
 
     function importIfPresent(path) {
         var file = new File(path);
         return file.exists ? project.importFile(new ImportOptions(file)) : null;
     }
-    function setNanum(doc, bold) {
-        try { doc.font = "NanumGothic"; } catch (ignore) {}
-        try { doc.fauxBold = bold; } catch (ignore2) {}
+    function applyPreferredKoreanFont(doc) {
+        // Assign only a font that this exact AE install reports as available.
+        try {
+            if (app.fonts && app.fonts.getFontsByPostScriptName) {
+                var candidates = ["NanumGothic", "MalgunGothic"];
+                for (var i = 0; i < candidates.length; i++) {
+                    var matches = app.fonts.getFontsByPostScriptName(candidates[i]);
+                    if (matches && matches.length > 0) {
+                        doc.font = matches[0].postScriptName;
+                        break;
+                    }
+                }
+            }
+        } catch (ignore) {}
     }
     function addText(name, text, x, y, size, color, bold) {
         var layer = comp.layers.addText(text);
@@ -25,7 +37,7 @@
         doc.applyStroke = false;
         doc.justification = ParagraphJustification.LEFT_JUSTIFY;
         doc.tracking = 25;
-        setNanum(doc, bold);
+        applyPreferredKoreanFont(doc);
         prop.setValue(doc);
         layer.name = name;
         layer.property("ADBE Transform Group").property("ADBE Position").setValue([x, y]);
@@ -92,7 +104,7 @@
         doc.fontSize = active ? 43 : 40;
         doc.fillColor = active ? [1, 1, 1] : [0.65, 0.65, 0.65];
         doc.tracking = 35;
-        setNanum(doc, active);
+        applyPreferredKoreanFont(doc);
         prop.setValueAtTime(time, doc);
     }
     function addRollingLyrics() {
@@ -131,13 +143,13 @@
         media.name = "04_MAIN_MEDIA";
         media.property("ADBE Transform Group").property("ADBE Position").setValue([MEDIA_X, MEDIA_Y]);
         createRoundedMatte(media);
-        addText("01_TITLE", "별 보러 가는 밤", 1085, 315, 58, [0.95, 0.95, 0.95], false);
+        addText("01_TITLE", "공부는 안 했지만", 1085, 315, 58, [0.95, 0.95, 0.95], false);
         addText("02_ARTIST", "by @gyulabs", 1085, 370, 24, [0.70, 0.70, 0.70], false);
         addRollingLyrics();
         addText("10_BRANDING", "GYULAB MUSIC", 1085, 875, 20, [0.68, 0.68, 0.68], false);
         if (audio !== null) {
             var audioLayer = comp.layers.add(audio);
-            audioLayer.name = "AUDIO__별 보러 가는 밤";
+            audioLayer.name = "AUDIO__공부는 안 했지만";
             audioLayer.outPoint = audio.duration;
             audioLayer.moveToEnd();
         }

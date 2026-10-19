@@ -6,15 +6,33 @@
     var W = 1080, H = 1920, FPS = 30, DURATION = 180;
     var MEDIA_W = 540, MEDIA_H = 600;
     var project, master, mediaComp, control;
-    var SUPPLIED_AUDIO = "C:/Users/gyu/Desktop/별 보러 가는 밤.wav";
-    var SUPPLIED_ARTWORK = "C:/Users/gyu/Desktop/DSC08809.jpg";
-    var SUPPLIED_SUBTITLES = "C:/Users/gyu/Desktop/별 보러 가는 밤_sync.smi";
+    var DESKTOP_PATH = Folder.desktop.fsName.replace(/\\/g, "/");
+    var SUPPLIED_AUDIO = DESKTOP_PATH + "/공부는 안 했지만.wav";
+    var SUPPLIED_ARTWORK = DESKTOP_PATH + "/middle-school-career-guidance-album-art.png";
+    var SUPPLIED_SUBTITLES = DESKTOP_PATH + "/공부는 안 했지만_sync.smi";
 
     function addSlider(layer, name, value) {
         var effect = layer.property("ADBE Effect Parade").addProperty("ADBE Slider Control");
         effect.name = name;
         effect.property(1).setValue(value);
         return effect;
+    }
+
+    function applyPreferredKoreanFont(doc) {
+        // Ask AE for an actually registered PostScript font before assigning it.
+        // This avoids the NULL font-instance error caused by an assumed name.
+        try {
+            if (app.fonts && app.fonts.getFontsByPostScriptName) {
+                var candidates = ["NanumGothic", "MalgunGothic"];
+                for (var i = 0; i < candidates.length; i++) {
+                    var matches = app.fonts.getFontsByPostScriptName(candidates[i]);
+                    if (matches && matches.length > 0) {
+                        doc.font = matches[0].postScriptName;
+                        break;
+                    }
+                }
+            }
+        } catch (ignore) {}
     }
 
     function addText(comp, name, value, y, size, color, bold) {
@@ -29,10 +47,10 @@
         // Tracking is measured in 1/1000 em in AE. 25 is a restrained,
         // editorial title spacing; lyric styling below uses 35.
         doc.tracking = 25;
-        // Nanum Gothic is preferred. If it is absent AE keeps/falls back to an
-        // available font, and the script continues normally.
-        try { doc.font = "NanumGothic"; } catch (ignore) {}
-        try { doc.fauxBold = bold; } catch (ignore2) {}
+        // Don't force a font by PostScript name: a missing or differently
+        // registered Windows font can trigger AE's NULL font-instance warning.
+        // AE retains an available default/fallback Korean font instead.
+        applyPreferredKoreanFont(doc);
         docProp.setValue(doc);
         layer.name = name;
         layer.property("ADBE Transform Group").property("ADBE Position").setValue([W / 2, y]);
@@ -141,8 +159,7 @@
         doc.fontSize = active ? 43 : 40; // active lyric is exactly 3px larger
         doc.fillColor = active ? [1, 1, 1] : [0.72, 0.72, 0.72];
         doc.tracking = 35;
-        try { doc.font = "NanumGothic"; } catch (ignore) {}
-        try { doc.fauxBold = active; } catch (ignore2) {}
+        applyPreferredKoreanFont(doc);
         textProp.setValueAtTime(time, doc);
     }
 
@@ -202,7 +219,7 @@
         addSlider(control, "Background Blur", 55);
         addSlider(control, "Inactive Lyric Opacity", 48);
 
-        addText(master, "01_TITLE", "별 보러 가는 밤", 315, 54, [1, 1, 1], true);
+        addText(master, "01_TITLE", "공부는 안 했지만", 315, 54, [1, 1, 1], true);
         addText(master, "02_ARTIST", "by @gyulabs", 385, 25, [0.9, 0.9, 0.9], false);
         makeBackground();
         addMainMedia();
@@ -210,7 +227,7 @@
         addText(master, "10_BRANDING", "GYULAB MUSIC", 1754, 25, [0.92, 0.92, 0.92], false);
         if (audio !== null) {
             var audioLayer = master.layers.add(audio);
-            audioLayer.name = "AUDIO__별 보러 가는 밤";
+            audioLayer.name = "AUDIO__공부는 안 했지만";
             audioLayer.outPoint = audio.duration;
             audioLayer.moveToEnd();
         }
