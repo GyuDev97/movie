@@ -7,9 +7,9 @@
     var MEDIA_W = 540, MEDIA_H = 600;
     var project, master, mediaComp, control;
     var DESKTOP_PATH = Folder.desktop.fsName.replace(/\\/g, "/");
-    var SUPPLIED_AUDIO = DESKTOP_PATH + "/공부는 안 했지만.wav";
-    var SUPPLIED_ARTWORK = DESKTOP_PATH + "/middle-school-career-guidance-album-art.png";
-    var SUPPLIED_SUBTITLES = DESKTOP_PATH + "/공부는 안 했지만_sync.smi";
+    var SUPPLIED_AUDIO = DESKTOP_PATH + "/월급은 어디로 갔을까.wav";
+    var SUPPLIED_ARTWORK = DESKTOP_PATH + "/월급을 빨아가는 지출의 호수.png";
+    var SUPPLIED_SUBTITLES = DESKTOP_PATH + "/월급은 어디로 갔을까_sync.smi";
 
     function addSlider(layer, name, value) {
         var effect = layer.property("ADBE Effect Parade").addProperty("ADBE Slider Control");
@@ -51,6 +51,8 @@
         // registered Windows font can trigger AE's NULL font-instance warning.
         // AE retains an available default/fallback Korean font instead.
         applyPreferredKoreanFont(doc);
+        // Only title styling uses faux bold; lyric styling stays font-safe.
+        try { if (name === "01_TITLE") { doc.fauxBold = true; } } catch (ignore) {}
         docProp.setValue(doc);
         layer.name = name;
         layer.property("ADBE Transform Group").property("ADBE Position").setValue([W / 2, y]);
@@ -219,7 +221,7 @@
         addSlider(control, "Background Blur", 55);
         addSlider(control, "Inactive Lyric Opacity", 48);
 
-        addText(master, "01_TITLE", "공부는 안 했지만", 315, 54, [1, 1, 1], true);
+        addText(master, "01_TITLE", "월급은 어디로 갔을까", 315, 54, [1, 1, 1], true);
         addText(master, "02_ARTIST", "by @gyulabs", 385, 25, [0.9, 0.9, 0.9], false);
         makeBackground();
         addMainMedia();
@@ -227,7 +229,7 @@
         addText(master, "10_BRANDING", "GYULAB MUSIC", 1754, 25, [0.92, 0.92, 0.92], false);
         if (audio !== null) {
             var audioLayer = master.layers.add(audio);
-            audioLayer.name = "AUDIO__공부는 안 했지만";
+            audioLayer.name = "AUDIO__월급은 어디로 갔을까";
             audioLayer.outPoint = audio.duration;
             audioLayer.moveToEnd();
         }

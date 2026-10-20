@@ -3,9 +3,9 @@
     var W = 1920, H = 1080, FPS = 30, DEFAULT_DURATION = 180;
     var MEDIA_W = 840, MEDIA_H = 840, MEDIA_X = 510, MEDIA_Y = 540;
     var DESKTOP_PATH = Folder.desktop.fsName.replace(/\\/g, "/");
-    var AUDIO_PATH = DESKTOP_PATH + "/공부는 안 했지만.wav";
-    var ARTWORK_PATH = DESKTOP_PATH + "/middle-school-career-guidance-album-art.png";
-    var SMI_PATH = DESKTOP_PATH + "/공부는 안 했지만_sync.smi";
+    var AUDIO_PATH = DESKTOP_PATH + "/월급은 어디로 갔을까.wav";
+    var ARTWORK_PATH = DESKTOP_PATH + "/월급을 빨아가는 지출의 호수.png";
+    var SMI_PATH = DESKTOP_PATH + "/월급은 어디로 갔을까_sync.smi";
     var project, comp, mediaComp;
 
     function importIfPresent(path) {
@@ -38,6 +38,7 @@
         doc.justification = ParagraphJustification.LEFT_JUSTIFY;
         doc.tracking = 25;
         applyPreferredKoreanFont(doc);
+        try { if (name === "01_TITLE") { doc.fauxBold = true; } } catch (ignore) {}
         prop.setValue(doc);
         layer.name = name;
         layer.property("ADBE Transform Group").property("ADBE Position").setValue([x, y]);
@@ -143,13 +144,13 @@
         media.name = "04_MAIN_MEDIA";
         media.property("ADBE Transform Group").property("ADBE Position").setValue([MEDIA_X, MEDIA_Y]);
         createRoundedMatte(media);
-        addText("01_TITLE", "공부는 안 했지만", 1085, 315, 58, [0.95, 0.95, 0.95], false);
+        addText("01_TITLE", "월급은 어디로 갔을까", 1085, 315, 58, [0.95, 0.95, 0.95], false);
         addText("02_ARTIST", "by @gyulabs", 1085, 370, 24, [0.70, 0.70, 0.70], false);
         addRollingLyrics();
         addText("10_BRANDING", "GYULAB MUSIC", 1085, 875, 20, [0.68, 0.68, 0.68], false);
         if (audio !== null) {
             var audioLayer = comp.layers.add(audio);
-            audioLayer.name = "AUDIO__공부는 안 했지만";
+            audioLayer.name = "AUDIO__월급은 어디로 갔을까";
             audioLayer.outPoint = audio.duration;
             audioLayer.moveToEnd();
         }
